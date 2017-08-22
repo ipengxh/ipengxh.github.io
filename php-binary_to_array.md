@@ -1,16 +1,17 @@
 # [PHP] 二进制转换为数组
 
 ```php
-public static function binaryToArray($baseKey, $binary)
+public static function binaryToValues($binary)
 {
-    $values = self::binaryToValues($binary);
-    $definitions = self::get($baseKey);
-    $array = [];
-    foreach ($definitions as $key => $definition) {
-        if (in_array($values, $definition['value'])) {
-            $array[$key] = $definition;
+    $values = [];
+    $byte = 0;
+    while ($binary) {
+        if($binary & 1) { // 判断当前值的二进制最后一位是否为1
+            $values[] = pow(2, $byte);
         }
+        $binary = $binary >> 1;
+        $byte++;
     }
-    return $array;
+    return $values;
 }
 ```
